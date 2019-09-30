@@ -88,7 +88,7 @@ class VehiclesController extends Controller
                 $q->where('dateEndDisponibility', '>', date('Y-m-d'))
                 ->orWhere('dateEndDisponibility','=', NULL);
             })
-            /*TODO Relation with categories*/
+            /*TODO Relation with categories in DB*/
             ->where() 
         ->get();
 
