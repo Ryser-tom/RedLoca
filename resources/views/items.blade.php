@@ -29,34 +29,39 @@
    <!-- Navigation -->
     <section id="recentlyAdded" class="bg-light">
       <div class="container">
-        <?php
-        $i = 0;
-        foreach ($vehicles as $key => $value) {
-          if($i==0)echo'<div class="row">';
-          if($i%3 == 0)echo'</div><div class="row">';
-          echo'
-              <div class="col-lg-4 col-sm-6 portfolio-item">
-                <div class="card h-100">
-                  <a href="item.php?vehicleId='.$value['idVehicule'].'&date='.$_GET['search'].'"><img class="card-img-top" src="/img/'.$value['image'].'" alt=""></a>
-                  <div class="card-body">
-                    <h4 class="card-title">
-                      <a href="item.php?vehicleId='.$value['idVehicule'].'&date='.$_GET['search'].'">'.$value['marque'].' '.$value['model'].'</a>
-                    </h4>
-                    <p class="card-text">
-                      places: '.$value['nbPlace'].'
-                    </p>
-                    <p class="card-text">
-                      couleur: '.$value['couleur'].'
-                    </p>
-                    <p class="card-text">
-                      catégorie: '.$value['categorie'].'
-                    </p>
-                  </div>
+        @php
+          $i=0;
+        @endphp
+        @foreach ($vehicles as $vehicle)
+          @if ($i==0)
+            <div class="row">
+          @endif
+          @if ($i%3==0)
+            </div><div class="row">
+          @endif
+          <div class="col-lg-4 col-sm-6 portfolio-item">
+              <div class="card h-100">
+                <a href="item.php?vehicleId={{$vehicle['idVehicule']}}&date={{date("Y-m-d")}}"><img class="card-img-top" src="/img/{{$vehicle['image']}}" alt=""></a>
+                <div class="card-body">
+                  <h4 class="card-title">
+                    <a href="item.php?vehicleId={{$vehicle['idVehicule']}}">{{$vehicle['marque']}} {{$vehicle['model']}}</a>
+                  </h4>
+                  <p class="card-text">
+                    places: {{$vehicle['nbPlace']}}
+                  </p>
+                  <p class="card-text">
+                    couleur: {{$vehicle['couleur']}}
+                  </p>
+                  <p class="card-text">
+                    catégorie: {{$vehicle['categorie']}}
+                  </p>
                 </div>
               </div>
-          ';$i++;}
-        ?>
-        </div>
+            </div>
+        @php
+          $i++;
+        @endphp
+        @endforeach
       </div>
       <!-- /.container -->
     </section>

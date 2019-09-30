@@ -58,13 +58,13 @@
                 <a href="item.php?vehicleId='.$value['idVehicule'].'&date='.date("Y-m-d").'"><img class="card-img-top" src="/img/'.$value['image'].'" alt=""></a>
                 <div class="card-body">
                   <h4 class="card-title">
-                    <a href="item.php?vehicleId='.$value['idVehicule'].'">'.$value['marque'].' '.$value['model'].'</a>
+                    <a href="item.php?vehicleId='.$value['idVehicule'].'">'.$value['brand'].' '.$value['model'].'</a>
                   </h4>
                   <p class="card-text">
                     places: '.$value['nbPlace'].'
                   </p>
                   <p class="card-text">
-                    couleur: '.$value['couleur'].'
+                    couleur: '.$value['color'].'
                   </p>
                   <p class="card-text">
                     catégorie: '.$value['categorie'].'

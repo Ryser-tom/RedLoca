@@ -1,11 +1,11 @@
-<?php
+@php
      $date = date('Y-m-d');
      if(isset($_GET['search'])){
          $search = $_GET['search'];
      }else{
         $search = $date;
      }
-?>
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -58,12 +58,12 @@
                                 </li>
                             @endif
                             <li class="nav-item">
-                            <form action="/items" method="GET">
-                                <input type="date" class="form-control" name="search" id="search" min="<?= $date ?>" value="<?= $search ?>">
-                                <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Chercher</button>   
-                              </form>
+                            
                             </li>
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('vehicles.create') }}"> {{' Add vehicles'}} </a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -82,6 +82,10 @@
                                 </div>
                             </li>
                         @endguest
+                        <form action="/items" method="GET">
+                            <input type="date" class="form-control" name="search" id="search" min="{{$date}}" value="{{$search}}">
+                            <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Chercher</button>   
+                        </form>
                     </ul>
                 </div>
             </div>

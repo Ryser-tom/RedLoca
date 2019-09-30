@@ -38,28 +38,28 @@ class VehiclesController extends Controller
         $request->validate([
             'idVehicule'=>'required',
             'immatriculation'=>'required',
-            'marque'=>'required',
+            'brand'=>'required',
             'model'=>'required',
             'nbPlace'=>'required',
-            'couleur'=>'required',
+            'color'=>'required',
             'image'=>'required',
-            'dateDebutDisponibilite'=>'required',
-            'immatriculation'=>'required',
-            'utilisateurs_idUtilisateur'=>'required',
+            'dateStartDisponibility'=>'required',
+            'dateEndDisponibility'=>'required',
+            'users_idUser'=>'required',
             'categories_idCategorie'=>'required'
         ]);
 
         $Vehicles = new Vehicles([
             $table->bigIncrements('idVehicule'),
             $table->string('immatriculation'),
-            $table->string('marque'),
+            $table->string('brand'),
             $table->string('model'),
             $table->integer('nbPlace'),
-            $table->string('couleur'),
+            $table->string('color'),
             $table->string('image'),
-            $table->date('dateDebutDisponibilite'),
-            $table->date('dateFinDisponibilite'),
-            $table->integer('utilisateurs_idUtilisateur'),
+            $table->date('dateStartDisponibility'),
+            $table->date('dateEndDisponibility'),
+            $table->integer('users_idUser'),
             $table->integer('categories_idCategorie')
         ]);
         $Vehicles->save();
@@ -83,21 +83,23 @@ class VehiclesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showRecent(){
-        $vehicles = Vehicles::where('dateDebutDisponibilite', '<=', date('Y-m-d'))
+        $vehicles = Vehicles::where('dateStartDisponibility', '<=', date('Y-m-d'))
             ->where(function($q) {
-                $q->where('dateFinDisponibilite', '>', date('Y-m-d'))
-                ->orWhere('dateFinDisponibilite','=', NULL);
-            }) 
+                $q->where('dateEndDisponibility', '>', date('Y-m-d'))
+                ->orWhere('dateEndDisponibility','=', NULL);
+            })
+            /*TODO Relation with categories*/
+            ->where() 
         ->get();
 
         return view('index', compact('vehicles'));
     }
 
     public function showFrom(){
-        $Vehicles = Vehicles::where('dateDebutDisponibilite', '<=', $_GET["search"])
+        $Vehicles = Vehicles::where('dateStartDisponibility', '<=', $_GET["search"])
             ->where(function($q){
-                $q->where('dateFinDisponibilite', '>', $_GET["search"])
-                ->orWhere('dateFinDisponibilite','=', NULL);
+                $q->where('dateEndDisponibility', '>', $_GET["search"])
+                ->orWhere('dateEndDisponibility','=', NULL);
             })
         ->get();
         //return ['vehicles'=>$Vehicles];
