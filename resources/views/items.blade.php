@@ -41,7 +41,9 @@
           @endif
           <div class="col-lg-4 col-sm-6 portfolio-item">
               <div class="card h-100">
-                <a href="item.php?vehicleId={{$vehicle['idVehicule']}}&date={{date("Y-m-d")}}"><img class="card-img-top" src="/img/{{$vehicle['image']}}" alt=""></a>
+                <a href="item.php?vehicleId={{$vehicle['idVehicule']}}&date={{date("Y-m-d")}}"><img
+                    {{--used a symlink to access image from the storage/app/public folder--}}
+                    class="card-img-top" src="{{ asset('storage/'.$vehicle['image']) }}" alt=""></a>
                 <div class="card-body">
                   <h4 class="card-title">
                     <a href="item.php?vehicleId={{$vehicle['idVehicule']}}">{{$vehicle['marque']}} {{$vehicle['model']}}</a>
@@ -64,6 +66,7 @@
         @endforeach
       </div>
       <!-- /.container -->
+      </div>
     </section>
   </body>
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Vehicles;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Exception;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class VehiclesController extends Controller
 {
@@ -36,7 +38,6 @@ class VehiclesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'idVehicule'=>'required',
             'immatriculation'=>'required',
             'brand'=>'required',
             'model'=>'required',
@@ -44,26 +45,26 @@ class VehiclesController extends Controller
             'color'=>'required',
             'image'=>'required',
             'dateStartDisponibility'=>'required',
-            'dateEndDisponibility'=>'required',
-            'users_idUser'=>'required',
-            'categories_idCategorie'=>'required'
+            'users_idUser'=>'required'//,
+            //'categories_idCategorie'=>'required'
         ]);
 
-        $Vehicles = new Vehicles([
-            $table->bigIncrements('idVehicule'),
-            $table->string('immatriculation'),
-            $table->string('brand'),
-            $table->string('model'),
-            $table->integer('nbPlace'),
-            $table->string('color'),
-            $table->string('image'),
-            $table->date('dateStartDisponibility'),
-            $table->date('dateEndDisponibility'),
-            $table->integer('users_idUser'),
-            $table->integer('categories_idCategorie')
-        ]);
-        $Vehicles->save();
-        return redirect('/Vehicles')->with('success', 'Vehicles saved!');
+        $path = $request->file('image')->store('image');
+
+        $Vehicle = new Vehicles();
+        $Vehicle->immatriculation = request('immatriculation');
+        $Vehicle->brand = request('brand');
+        $Vehicle->model = request('model');
+        $Vehicle->nbPlace = request('nbPlace');
+        $Vehicle->color = request('color');
+        $Vehicle->image = $path;
+        $Vehicle->dateStartDisponibility = request('dateStartDisponibility');
+        $Vehicle->dateEndDisponibility = request('dateEndDisponibility');
+        $Vehicle->users_idUser = request('users_idUser');
+
+        $Vehicle->save();
+
+        return redirect('/home')->with('success', 'Vehicles saved!');
     }
 
     /**
@@ -88,8 +89,8 @@ class VehiclesController extends Controller
                 $q->where('dateEndDisponibility', '>', date('Y-m-d'))
                 ->orWhere('dateEndDisponibility','=', NULL);
             })
-            /*TODO Relation with categories in DB*/
-            ->where() 
+            /*TODO Relation with categories*/
+
         ->get();
 
         return view('index', compact('vehicles'));

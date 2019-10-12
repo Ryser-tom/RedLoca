@@ -19,4 +19,5 @@ class Vehicles extends Model
         'utilisateurs_idUtilisateur',
         'categories_idCategorie'
     ];
+    public $timestamps = false;
 }
